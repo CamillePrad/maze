@@ -162,6 +162,11 @@ input
 	overflow:visible;
 	position:relative;
 	left:-100px;
-	color:red;
-	
+	color:red;	
+}
+
+footer
+{
+ 	position:absolute;
+	bottom:0;
 }
