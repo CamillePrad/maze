@@ -167,7 +167,7 @@ input
 
 footer
 {
- 	position:absolute;
+ 	position:relative;
 	bottom:0;
 	float:right;
 	text-align: right;
