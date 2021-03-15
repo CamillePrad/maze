@@ -1,0 +1,167 @@
+
+
+.main-header 
+{
+	padding:0px;
+	text-align: center;
+	background: #008080;
+	color: white;
+	font-size: 1em;
+	font-family: Papyrus, Monaco, Verdana,Geneva,sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+div, table, tr, td
+{
+	text-align: center;
+	font-size: 1em;
+	font-family: Verdana,Geneva,sans-serif;
+	margin-left: auto;
+	margin-right: auto;
+	margin-bottom: 1em;
+	
+}
+
+input
+{
+	text-align:center;
+	width:2em;
+}
+
+.button 
+{
+	background-color: #002e2e; 
+	border: 1.5px solid #007070;
+	color: white;
+	padding: 0.5em;
+	text-align: center;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 1em;
+	width:10em;
+	font-family: Verdana,Geneva,sans-serif;
+	transition-duration: 0.4s;
+	position:relative;
+	top:-10px;
+}
+
+.button:hover 
+{
+	background-color:  white;
+	color: #002e2e;
+}
+
+#line
+{
+	width:25em;
+	height:2.5em;
+}
+ 
+
+#yourMaze 
+{
+  width:50%;
+  height:2.5em;
+  line-height:1em;
+  float:left;
+  vertical-align:middle;
+}
+
+#buttonBack 
+{
+  height:2.5em;
+  text-align:center;
+  vertical-align:middle;
+  margin-left:1em;
+}
+
+#tableMaze
+{
+  border-collapse: collapse;
+  table-layout: fixed;
+  overflow: visible;
+
+
+
+  /* display:inline-table; */
+  
+}
+#tableMaze td 
+{
+  max-width: 20px;
+  min-width: 20px;
+  height:20px;
+  overflow: visible;
+    /* display: inline-block; */
+    /* white-space: nowrap; */
+	/* margin:0; */
+	 
+}
+
+#tableMaze tr
+{
+
+  height:20px;
+
+  overflow: visible;
+  
+}
+
+.bottom
+{
+  border-bottom: 1.5px solid black;
+}
+
+.top
+{
+  border-top: 1.5px solid black;
+}
+
+.right
+{
+  border-right: 1.5px solid black;
+}
+
+.left
+{
+  border-left: 1.5px solid black;
+}
+
+
+.exit, .exitArrow
+{
+  text-align:right;
+  color:red;
+  
+}
+
+.exitArrow
+{
+  
+  padding-right:8px;
+}
+.ent, .entArrow
+{
+  
+  color:green;
+  
+}
+
+.ent
+{
+  text-align:left;
+  
+}
+
+#visibleError
+{
+	max-width: 20px;
+	min-width: 20px;
+	white-space: nowrap;
+	overflow:visible;
+	position:relative;
+	left:-100px;
+	color:red;
+	
+}

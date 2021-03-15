@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css"/>
+		<title>Maze Generator</title>
+	</head>
+	<body>
+		<header class="main-header">
+			<h1>Maze generator</h1>
+		</header>
+		<div id="line">
+			<div id="yourMaze" class="yourMaze"> Your maze is here !</div>	
+			<div> 					
+				<input id="buttonBack" class="button" type="button" onclick="window.location.href='mazeForm.html'" value="Back to home"></input>					
+			</div>
+		</div>
+		<table id="tableMaze"></table>
+			
+		<script type="text/javascript">
+			
+			<!-- reading of the parameters (width & height) in window location -->
+			var queryString = window.location.search;
+			var urlParams = new URLSearchParams(queryString);
+			var widthMaze = urlParams.get('widthMaze');
+			var heightMaze = urlParams.get('heightMaze');
+			
+			<!-- call of the generation fonction with previous parameters -->
+			GenerateMaze(widthMaze,heightMaze);	
+			
+			<!-- function with algorithm creating the maze -->
+			function GenerateMaze(WidthMaze,HeightMaze)
+			{
+				var MazeWidth = parseInt(WidthMaze);
+				var MazeHeight = parseInt(HeightMaze);
+				
+				var WallsVer = new Array((MazeWidth+1)*MazeHeight).fill(1);	<!-- creation of the array with all the possible vertical walls of the maze -->
+				var WallsHor = new Array((MazeHeight+1)*MazeWidth).fill(1);	<!-- creation of the array with all the possible horizontal walls of the maze -->
+				var MazeCells = new Array(MazeHeight);						<!-- creation of the array that will contain all the cells of the maze, an array with the number of lines is created-->
+				var directionX = {'N':0,'S':0,'E':1,'W':-1};				<!-- array with x value corresponding to north, south east and west directions -->
+				var	directionY = {'N':1,'S':-1,'E':0,'W':0};				<!-- array with y value corresponding to north, south east and west directions -->
+				var N_opened_wall=0;										<!-- variable containing the number of walls opened in wallsVer and wallsHor -->
+				
+				for (var i=0; i<MazeHeight;i++)								<!-- for each line of the array MazeCells, an array is created with the number of columns of the maze -->
+				{
+					MazeCells[i]=new Array(MazeWidth);
+					for (var j=0; j<MazeWidth;j++)
+					{
+						MazeCells[i][j]=j+MazeWidth*i;						<!-- a value is assigned to each cell (1, 2, 3,...) -->
+					}
+				}
+				
+				var random_c1;
+				var	random_r1;
+				var c2;
+				var r2;
+				var directions = ['N','S','E','W'];
+				var	random_direction;
+				
+				while (N_opened_wall<MazeWidth*MazeHeight-1)									<!-- Randomized Kruskal's algorithm-->
+				{				
+					random_c1=Math.floor(Math.random()*(MazeWidth));							<!-- a cell is chosen in the maze randomly -->
+					random_r1=Math.floor(Math.random()*(MazeHeight));
+					random_direction=directions[Math.floor(Math.random()*directions.length)];	<!-- a direction is chosen randomly -->
+					
+					c2=random_c1+directionX[random_direction];
+					r2=random_r1+directionY[random_direction];
+					
+					if (c2>=0 && c2<MazeWidth && r2>=0 && r2<MazeHeight)						
+					{	
+						if(MazeCells[random_r1][random_c1]!=MazeCells[r2][c2])					<!-- if the value in the two cells are different, we open the wall betweenand we assign the value of the first cell to the 2nd one and to all cells with the 2nd value -->
+						{
+							openWall(WallsHor,WallsVer,random_r1,r2,random_c1,c2,MazeWidth,MazeHeight);	
+							N_opened_wall++;
+							id1=MazeCells[random_r1][random_c1];
+							id2=MazeCells[r2][c2];
+							for (var i=0; i<MazeHeight;i++)
+							{			
+								for (var j=0; j<MazeWidth;j++)
+								{
+									if(MazeCells[i][j]==id2)
+										{MazeCells[i][j]=id1;};
+								}
+							}
+						}					
+					}					
+				}		
+				WallsHor[0]=0;								<!-- the entrance of the maze is fixed at the first cell top for every maze generated -->
+				WallsHor[WallsHor.length - 1]=0;			<!-- the sexit of the maze is fixed at the last cell bottom for every maze generated -->
+				CreateMaze(WallsHor,WallsVer,MazeWidth,MazeHeight);
+			}	
+			
+			
+			<!--function that creates the generated maze by adding cells as tr and td in "tableMaze" in html body -->
+			function CreateMaze(WallsHor,WallsVer,WidthMaze,HeightMaze)
+			{
+				var table = document.getElementById ('tableMaze');
+				var row;				
+				var cell;				
+				var myHtmlContent; 
+				
+				<!-- entrance indication -->
+				row = table.insertRow (-1);
+				cell = row.insertCell (-1);
+				myHtmlContent = "entrance";
+				cell.innerHTML = myHtmlContent;
+				cell.colSpan = "3";
+				cell.classList.add("ent");
+        
+				<!-- entrance arrow -->
+				row = table.insertRow (-1);
+				cell = row.insertCell (-1);
+				myHtmlContent = "&#8595;";
+				cell.innerHTML = myHtmlContent;
+				cell.classList.add("entArrow");
+        
+        		for (var i=0; i<HeightMaze;i++)
+				{
+					row = table.insertRow (-1);
+					for (var j=0; j<WidthMaze;j++)
+					{	
+						var CellClass = new String();
+						if(WallsHor[(HeightMaze+1)*j+i]==1)
+						{
+							CellClass+="top ";
+						}
+						if(WallsHor[(HeightMaze+1)*j+i+1]==1)
+						{
+							CellClass+="bottom ";
+						}
+						if(WallsVer[(WidthMaze+1)*i+j]==1)
+						{
+							CellClass+="left ";
+						}
+						if(WallsVer[(WidthMaze+1)*i+j+1]==1)
+						{
+							CellClass+="right ";
+						}
+						
+						cell = row.insertCell (-1);
+						cell.className = CellClass;				<!-- insertion of the cell with class name corresponding to the walls opened or closed -->	
+					}
+				}      
+             
+				<!-- exit arrow -->
+				row = table.insertRow (-1);
+				cell = row.insertCell(-1);
+				myHtmlContent = "&#8595;";
+				cell.innerHTML = myHtmlContent;
+				cell.colSpan = WidthMaze;
+				cell.classList.add("exitArrow");
+        
+				<!-- exit indication -->
+				row = table.insertRow (-1);
+				cell = row.insertCell (-1);
+				myHtmlContent = "exit";
+				cell.innerHTML = myHtmlContent;
+				cell.colSpan = WidthMaze;
+				cell.classList.add("exit");
+			}
+			
+			<!--function that opens walls of the maze -->
+			function openWall(WallsHor,WallsVer,r1,r2,c1,c2,WidthMaze,HeightMaze) 
+			{
+				if(c1==c2 && r1!=r2)
+				{
+					WallsHor[(1+HeightMaze)*(Math.min(c1,c2))+Math.min(r1,r2)+1]=0;			
+				}
+				if(c1!=c2 && r1==r2)
+				{
+					WallsVer[(1+WidthMaze)*(Math.min(r1,r2))+Math.min(c1,c2)+1]=0	;			
+				}
+				
+			}
+			
+			
+			
+		</script>
+	</body>   	
+ </html>

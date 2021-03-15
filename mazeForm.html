@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" href="style.css"/>
+		<title>Maze Generator</title>
+	</head>
+	
+	<body>
+		<header class="main-header">
+			<h1>Maze generator</h1>
+		 </header>
+		<div class="please"> Please indicate the maze dimmensions :</div>	
+		<div>
+			<table class="table-dimmensions">						
+				<tr>
+					<td> Width : </td>
+					<td>
+						<input id="widthMaze" type="text"  value="20"></input>
+					</td>
+					<td> cells </td>
+				</tr>				
+				<tr>
+					<td> Height : </td>
+					<td> 
+						<input id="heightMaze" type="text"  value="20"></input>
+					</td>
+					<td> cells </td>
+				</tr>	
+				<tr>
+					<td colspan="4" id="visibleError" style="visibility:hidden;"> Please indicate width and height between 2 and 200 cells </td>
+				</tr>	
+			</table>  
+		</div>
+		<div> 
+			<input class="button" type="button" onclick="createPage()" value="Generate Maze"></input>
+		</div>
+		
+		<script type="text/javascript">
+			function createPage () 
+			{	
+				var width = Number(document.getElementById('widthMaze').value);
+				var height = Number(document.getElementById('heightMaze').value);
+				
+				if(width === parseInt(width, 10) && height === parseInt(height, 10) && width>=2 && width<=200 && height>=2 && height<=200 )<!-- test inputs are not correct error message, else create 2nd page with maze--> 
+				{
+					var attributesStr = "";
+					attributesStr += "mazeGeneration.html?widthMaze="; 
+					attributesStr += document.getElementById('widthMaze').value;
+					attributesStr += "&heightMaze="; 
+					attributesStr += document.getElementById('heightMaze').value;
+					window.location.href=attributesStr;<!-- href is created with width and height as parameters -->
+				}
+				else
+				{
+					document.getElementById('visibleError').style.visibility = 'visible'; <!-- error message visible -->
+					
+				}
+			}
+		</script>
+	</body>   
+</html>
