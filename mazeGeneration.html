@@ -37,7 +37,7 @@
 				
 				var WallsVer = new Array((MazeWidth+1)*MazeHeight).fill(1);		<!-- creation of the array with all the possible vertical walls of the maze -->
 				var WallsHor = new Array((MazeHeight+1)*MazeWidth).fill(1);		<!-- creation of the array with all the possible horizontal walls of the maze -->
-				var MazeCells = new Array(MazeHeight);					<!-- creation of the array that will contain all the cells of the maze, an array with the number of lines is created-->
+				var MazeCells = new Array(MazeHeight);					<!-- creation of the array that will contain all the cells of the maze, an array with the number of lines is first created-->
 				var directionX = {'N':0,'S':0,'E':1,'W':-1};				<!-- array with x value corresponding to north, south east and west directions -->
 				var	directionY = {'N':1,'S':-1,'E':0,'W':0};			<!-- array with y value corresponding to north, south east and west directions -->
 				var N_opened_wall=0;							<!-- variable containing the number of walls opened in wallsVer and wallsHor -->
@@ -69,7 +69,7 @@
 					
 					if (c2>=0 && c2<MazeWidth && r2>=0 && r2<MazeHeight)						
 					{	
-						if(MazeCells[random_r1][random_c1]!=MazeCells[r2][c2])			<!-- if the value in the two cells are different, we open the wall betweenand we assign the value of the first cell to the 2nd one and to all cells with the 2nd value -->
+						if(MazeCells[random_r1][random_c1]!=MazeCells[r2][c2])			<!-- if the values in the two cells are different, we open the wall between cells and we assign the value of the first cell to the 2nd one and to all cells with the 2nd value -->
 						{
 							openWall(WallsHor,WallsVer,random_r1,r2,random_c1,c2,MazeWidth,MazeHeight);	
 							N_opened_wall++;
@@ -87,7 +87,7 @@
 					}					
 				}		
 				WallsHor[0]=0;								<!-- the entrance of the maze is fixed at the first cell top for every maze generated -->
-				WallsHor[WallsHor.length - 1]=0;					<!-- the sexit of the maze is fixed at the last cell bottom for every maze generated -->
+				WallsHor[WallsHor.length - 1]=0;					<!-- the exit of the maze is fixed at the last cell bottom for every maze generated -->
 				CreateMaze(WallsHor,WallsVer,MazeWidth,MazeHeight);
 			}	
 			
@@ -139,7 +139,7 @@
 						}
 						
 						cell = row.insertCell (-1);
-						cell.className = CellClass;				<!-- insertion of the cell with class name corresponding to the walls opened or closed -->	
+						cell.className = CellClass;				<!-- creation of the cell in html with class name corresponding to the walls opened or closed -->	
 					}
 				}      
              
